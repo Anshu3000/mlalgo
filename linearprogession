@@ -1,0 +1,63 @@
+import numpy as np
+import seaborn as sns
+import pandas as pd
+from matplotlib import pyplot as plt
+
+
+da=pd.read_csv("headbrain.csv")
+da.head(10)
+
+print(da.shape)
+print(da.info())
+print(da.describe())
+
+
+x1=da.iloc[:,2]
+y1=da.iloc[:,3]
+print(len(x1))
+print(len(y1))
+
+
+ def Linea(x,y):
+  x_me=x.mean()
+  y_me=y.mean()
+  print(x_me,y_me)
+  n1=len(x)
+  print(n1)
+  mnum=0
+  mdeo=0
+  for i in range(len(x)):
+    mnum+=((x[i]-x_me)*(y[i]-y_me))
+    mdeo+=(x[i]-x_me)**2
+  
+  mslo=mnum/mdeo
+  coeff1=y_me-(mslo*x_me)
+  print(mslo)
+  print(coeff1)
+  return (mslo,coeff1)
+
+
+b0,b1=Linea(x1,y1)
+
+max12=max(x1)+100
+mi12=min(y1)-100
+y=b1+b0*x1
+plt.figure(figsize=(10,10))
+plt.plot(x1,y,label="Regression line")
+plt.scatter(x1, y1, c="Green",label="scatter plot")
+plt.xlabel("head size in cm^3")
+plt.ylabel("brain weight in grams")
+plt.legend()
+plt.show()
+
+s1num=0
+s2deo=0
+x_me=x1.mean()
+y_me=y1.mean()
+
+for i in range(len(y1)):
+  yp=b1+b0*x1[i]
+  s1num+=(yp-y1[i])**2
+  s2deo+=(y1[i]-y_me)**2
+r2=1-(s1num/s2deo)
+print(r2) 
